@@ -199,7 +199,32 @@ const filteredData = dataArray.filter(item => typeof item === 'object' && item !
 
 //console.log(filteredData, 'filtered');
 
-//              
+//          
+let text = 'This study investigates the evolving landscape of retail public relations (PR) in the digital era, focusing on Nigerias retail giants, ShopRite and SPAR. Chapter 1 outlines the historical significance of communication and its transformative role in societal and organisational dynamics. It emphasizes the shift towards contemporary digital tools like social media and e-marketing, shaping modern PR practices. Chapter 2 conducts a comprehensive literature review, exploring the nexus between digital communication tools and retail PR strategies. Theoretical frameworks such as Diffusion of Innovation and Social Influence Theory are employed to understand the complexities of digital PR in retail. Identified gaps in the literature point towards the need for further research in this area. Chapter 3 delineates the research methodology, employing a qualitative approach and case study design. It outlines the sampling techniques, data collection methods, analysis procedures, and ethical considerations to ensure a robust and ethical research framework. Through this study, we aim to provide insights into the impact of digital communication tools on retail PR practices, offering valuable implications for practitioners and scholars alike.'
+
+function breakIntoParagraphs(text) {
+  let paragraphLength = 100
+  const words = text.split(' ');
+  const paragraphs = [];
+  let currentParagraph = words[0];
+
+  for (let i = 1; i < words.length; i++) {
+      if (currentParagraph.length + words[i].length + 1 <= paragraphLength) {
+          currentParagraph += ' ' + words[i];
+      } else {
+          paragraphs.push(currentParagraph);
+          currentParagraph = words[i];
+      }
+  }
+
+  paragraphs.push(currentParagraph); // Append the last paragraph
+  console.log(paragraphs)
+  return paragraphs;
+}
+
+
+
+
   return (
   <div className='w-full h-full flex flex-col'>
     <div className='sm:px-36 px-4'>
@@ -215,10 +240,11 @@ const filteredData = dataArray.filter(item => typeof item === 'object' && item !
         {filteredData.map((entry) => (
           <li key={entry.id} className='border sm:px-12 px-2 p-4 rounded-lg'>
             <div className='w-full justify-center flex'>
-               <img src={entry.imageURL} alt="" className="w-90 h-80" />
+              <embed   src={`${entry.imageURL}#toolbar=0`}  width="300px" height="300px" type="application/pdf"/>
+               {/* <img src={entry.imageURL} alt="" className="w-90 h-80" /> */}
             </div>
             <h1 className="text-xl text-blue-950 font-bold">{entry.title}</h1>
-            <p className='text-md text-black'>{entry.content}</p>
+            <p className='text-md text-black'>{breakIntoParagraphs(entry.content)}</p>
              <button onClick={() => deleteItem(entry.id)} className='bg-red-800 text-white'>Delete</button> 
           </li>
         ))}
@@ -237,7 +263,7 @@ const filteredData = dataArray.filter(item => typeof item === 'object' && item !
             onChange={handleFileChange}
            />
            <div>
-            <button onClick={handleUpload} className='text-white bg-yellow-500'>Upload Image</button>
+            <button onClick={handleUpload} className='text-white bg-yellow-500'>Upload Pdf</button>
           </div> 
           <input
             className='h-10 w-full'
@@ -246,7 +272,7 @@ const filteredData = dataArray.filter(item => typeof item === 'object' && item !
              value={newItem.title}
              onChange={(e) => setNewItem({...newItem, title:e.target.value})}
            />   
-        <textarea
+        {/* <textarea
            className='h-40 w-full'
            rows={4}
            cols={4}
@@ -254,7 +280,7 @@ const filteredData = dataArray.filter(item => typeof item === 'object' && item !
            placeholder="Enter Content"
            value={newItem.content}
            onChange={(e) => setNewItem({...newItem, content:e.target.value})}
-         />
+         /> */}
          </div>
        
        
